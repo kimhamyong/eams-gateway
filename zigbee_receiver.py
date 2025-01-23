@@ -1,10 +1,40 @@
 import serial
 import time
 
+# Allowed MAC addresses after decoding escape sequences
+ALLOWED_MACS = [
+    b'\x00\x7D\x33\xA2\x00\x41\xFC\xB7\xA4',  
+    b'\x00\x7D\x33\xA2\x00\x41\xFC\xBB\xBC', 
+    b'\x00\x7D\x33\xA2\x00\x41\x8F\x27\xCB'  
+]
+
 def process_frame(frame):
     """
-    Process the received frame and print its contents.
+    Process the received frame, filter by allowed MAC addresses, and print its contents.
     """
+    if frame[0] != 0x7E:  # Start delimiter
+        print("Invalid Frame: Missing Start Delimiter")
+        return
+
+    # Extract frame length
+    frame_length = (frame[1] << 8) | frame[2]
+    if len(frame[4:]) != frame_length + 1:
+        print(f"Invalid Frame: Length Mismatch (Expected {frame_length}, Got {len(frame[4:]) - 1})")
+        return
+
+    # Check frame type (0x90 = RX Indicator)
+    frame_type = frame[3]
+    if frame_type != 0x90:
+        print(f"Unsupported Frame Type: {frame_type:02X}")
+        return
+
+    # Decode source MAC address
+    source_mac = frame[4:13]  # Decode escape sequence
+    if source_mac not in ALLOWED_MACS:
+        print(f"Ignored Frame from MAC Address: {source_mac.hex().upper()}")
+        return  # Ignore frames from unallowed MAC addresses
+
+    # Print allowed frame data
     print(f"Received Data: {frame.hex()}")
 
 def main():
@@ -30,7 +60,7 @@ def main():
                         if len(buffer) < 3:
                             break
                         frame_length = (buffer[1] << 8) | buffer[2]
-                        total_length = frame_length + 4  # Header (3) + Checksum (1)
+                        total_length = frame_length + 5  # Start Delimiter(1) + Length(2) + Frame Type(1) + Checksum (1)
 
                         if len(buffer) < total_length:
                             break  # Wait for the complete frame to arrive
