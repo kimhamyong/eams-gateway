@@ -1,11 +1,8 @@
 import serial
 import time
 
-# Allowed MAC addresses after decoding escape sequences
 ALLOWED_MACS = [
-    b'\x00\x7D\x33\xA2\x00\x41\xFC\xB7\xA4',  
-    b'\x00\x7D\x33\xA2\x00\x41\xFC\xBB\xBC', 
-    b'\x00\x7D\x33\xA2\x00\x41\x8F\x27\xCB'  
+    #Allowed MAC addresses after decoding escape sequences 
 ]
 
 def process_frame(frame):
