@@ -32,12 +32,20 @@ The Home Gateway connects ZigBee-based sensors to an MQTT broker for real-time I
  - Converts sensor data into **JSON format** before publishing: 
     ```json
     {  
-        "gateway_id": "home1",                      # Identifies the gateway
-        "sensor": "pir",                            # Sensor type (sound, pressure, pir, etc.)
-        "value": 1,                                 # triggered event
-        "timestamp": "2025-01-23T12:00:00Z"         # ISO 8601 format
+        "gateway_id": "home1",                   
+        "sensor": "pir",                        
+        "value": 1,                        
+        "timestamp": "2025-01-23T12:00:00Z"      
     }
     ```
+ -  Field Descriptions
+    ```
+    - gateway_id: Identifies the gateway that sent the data  
+    - sensor: Type of sensor ('sound', 'pressure', 'pir', etc.)  
+    - value: Represents the detected event ('1' means triggered)  
+    - timestamp: Time of the event in ISO 8601 format ('YYYY-MM-DDTHH:MM:SSZ') 
+    ``` 
+
 
 ### MQTT Broker (Mosquitto)
  - _**Specify the **MQTT broker `IP addres`s and `port`** in the `.env` file**_
@@ -68,7 +76,7 @@ Run the setup script to install all necessary dependencies:
 chmod +x setup.sh
 ./setup.sh
 ```
-This will install python3-paho-mqtt, detect the ZigBee USB module at /dev/ttyUSB*, and ensure the user belongs to the dialout group for serial access.
+This will install `python3-paho-mqtt`, detect the ZigBee USB module at `/dev/ttyUSB`, and ensure the user belongs to the `dialout` group for serial access.
 
 ### 2. Configure the Environment
 Modify the `.env` file to set the appropriate values for ZigBee and MQTT.
@@ -79,4 +87,4 @@ Run the MQTT broker setup script:
 chmod +x mqtt-broker.sh
 ./mqtt-broker.sh
 ```
-This will install python3-paho-mqtt, detect the ZigBee USB module at /dev/ttyUSB*, and ensure the user belongs to the dialout group for serial access.
+This will install `Mosquitto`, set up authentication and listener port, and enable automatic startup on boot.
