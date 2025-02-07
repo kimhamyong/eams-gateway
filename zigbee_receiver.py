@@ -34,7 +34,7 @@ def process_frame(frame):
         return  # Ignore frames from unallowed MAC addresses
 
     # Print allowed frame data
-    print(f"Received Data: {frame[16]:02X}")
+    print(f"Received Data: {chr(frame[16])}")
 
 def main():
     try:
