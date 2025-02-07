@@ -2,7 +2,7 @@ import serial
 import time
 from datetime import datetime
 from mqtt_publisher import publish_message  # MQTT 발행 함수 가져오기
-from config.settings import ALLOWED_MACS, SERIAL_PORT, sensor_config
+from config.settings import ALLOWED_MACS, SERIAL_PORT, sensor_config, gateway_id
 
 def decode_escaped_mac(frame):
     """
@@ -72,7 +72,7 @@ def process_frame(frame):
         return None
 
     return {
-        "gateway_id": "home1",
+        "gateway_id": gateway_id,
         "sensor": sensor_info["name"],
         "value": 1,
         "timestamp": datetime.utcnow().isoformat() + "Z"

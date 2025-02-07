@@ -19,6 +19,7 @@ SENSOR_TYPE_MAPPING = {
 
 # Sensor Configuration
 allowed_macs = [bytes.fromhex(mac) for mac in os.getenv("SENSOR_MACS", "").split(",")]
+gateway_id = os.getenv("GATEWAY_ID")
 
 # Sensor mac address mapping
 sensor_config = {
