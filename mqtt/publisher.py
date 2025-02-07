@@ -1,13 +1,14 @@
 import os
 import json
 import paho.mqtt.client as mqtt
+from config.settings import gateway_id
 from dotenv import load_dotenv
 
 load_dotenv()
 
 BROKER = os.getenv("MQTT_BROKER") 
 PORT = int(os.getenv("MQTT_PORT"))
-TOPIC = os.getenv("MQTT_TOPIC")
+TOPIC = gateway_id
 
 
 def publish_message(payload):
