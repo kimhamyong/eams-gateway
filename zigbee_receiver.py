@@ -2,10 +2,28 @@ import serial
 import time
 
 ALLOWED_MACS = [
-    b'\x00\x7D\x33\xA2\x00\x41\xFC\xB7\xA4',  
-    b'\x00\x7D\x33\xA2\x00\x41\xFC\xBB\xBC', 
-    b'\x00\x7D\x33\xA2\x00\x41\x8F\x27\xCB' 
+    bytes.fromhex("0013A20041FCBBBC"),
+    bytes.fromhex("0013A20041FCB7A4"),
+    bytes.fromhex("0013A200418F27CB")
 ]
+
+def decode_escaped_mac(frame):
+    """
+    Decode the escaped MAC address from an API 2 Mode frame.
+    """
+    source_mac = []
+    escape_next = False
+
+    for byte in frame:  # Iterate over each byte in the MAC address
+        if escape_next:
+            source_mac.append(byte ^ 0x20)  # XOR with 0x20 to get the original byte
+            escape_next = False # Reset escape flag
+        elif byte == 0x7D:
+            escape_next = True  # Next byte will be escaped
+        else:
+            source_mac.append(byte) # Add the byte as is
+
+    return bytes(source_mac) # Convert the list to bytes
 
 def process_frame(frame):
     """
@@ -28,7 +46,7 @@ def process_frame(frame):
         return
 
     # Decode source MAC address
-    source_mac = frame[4:13]  # Decode escape sequence
+    source_mac = decode_escaped_mac(frame[4:13])   # Decode escape sequence
     if source_mac not in ALLOWED_MACS:
         print(f"Ignored Frame from MAC Address: {source_mac.hex().upper()}")
         return  # Ignore frames from unallowed MAC addresses
