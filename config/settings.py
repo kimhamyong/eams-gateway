@@ -9,13 +9,12 @@ MQTT_TOPIC = os.getenv("MQTT_TOPIC")
 
 # Serial Port Configuration
 SERIAL_PORT = os.getenv("SERIAL_PORT")
-BAUD_RATE = int(os.getenv("BAUD_RATE"))
 
 # Sensor Type Mapping
 SENSOR_TYPE_MAPPING = {
-    0: {"name": "sound", "rf_value": 3},
-    1: {"name": "pressure", "rf_value": 4},
-    2: {"name": "pir", "rf_value": 5},
+    "sound": 3,
+    "pressure": 4,
+    "pir": 5,
 }
 
 # Sensor Configuration
@@ -23,8 +22,8 @@ allowed_macs = [bytes.fromhex(mac) for mac in os.getenv("SENSOR_MACS", "").split
 
 # Sensor mac address mapping
 sensor_config = {
-    mac: SENSOR_TYPE_MAPPING[index % len(SENSOR_TYPE_MAPPING)]
-    for index, mac in enumerate(allowed_macs)
+    mac: {"name": sensor_type, "rf_value": rf_value}
+    for mac, (sensor_type, rf_value) in zip(allowed_macs, SENSOR_TYPE_MAPPING.items())
 }
 
 # Allowed MAC addresses
