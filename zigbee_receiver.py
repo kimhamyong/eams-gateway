@@ -2,7 +2,9 @@ import serial
 import time
 
 ALLOWED_MACS = [
-    #Allowed MAC addresses after decoding escape sequences 
+    b'\x00\x7D\x33\xA2\x00\x41\xFC\xB7\xA4',  
+    b'\x00\x7D\x33\xA2\x00\x41\xFC\xBB\xBC', 
+    b'\x00\x7D\x33\xA2\x00\x41\x8F\x27\xCB' 
 ]
 
 def process_frame(frame):
@@ -32,11 +34,11 @@ def process_frame(frame):
         return  # Ignore frames from unallowed MAC addresses
 
     # Print allowed frame data
-    print(f"Received Data: {frame.hex()}")
+    print(f"Received Data: {frame[16]:02X}")
 
 def main():
     try:
-        ser = serial.Serial('/dev/ttyUSB0', baudrate=9600, timeout=1)
+        ser = serial.Serial('/dev/ttys011', baudrate=9600, timeout=1) #ser = serial.Serial('/dev/ttyUSB0', baudrate=9600, timeout=1)
         print("Connected to /dev/ttyUSB0")
 
         buffer = bytearray()  # Buffer to store incoming data
