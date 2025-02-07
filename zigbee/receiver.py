@@ -39,7 +39,6 @@ def start_receiver():
 
                         payload = process_frame(frame) # process frame
                         if payload:
-                            print(f"Publishing MQTT message: {payload}") 
                             publish_message(payload) # publish message to MQTT
                 else:
                     time.sleep(1) # sleep for 1 second
