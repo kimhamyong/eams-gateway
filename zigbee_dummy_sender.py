@@ -5,7 +5,7 @@ def send_dummy_data(port="/dev/ttys010", baudrate=9600):
     """
     Send dummy ZigBee API 2 frame data to simulate sensor transmission.
     """
-    dummy_frame = bytes.fromhex("7E 00 0D 90 00 7D 33 A2 00 41 FC B7 A4 12 9A 01 34 34")
+    dummy_frame = bytes.fromhex("7E 00 0D 90 00 7D 33 A2 00 41 FC B7 A4 12 9A 01 34 41")
 
     try:
         with serial.Serial(port, baudrate, timeout=1) as ser:
