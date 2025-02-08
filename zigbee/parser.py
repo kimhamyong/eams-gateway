@@ -73,7 +73,7 @@ def process_frame(frame):
 
     # return MQTT payload
     return { 
-        "gateway_id": gateway_id,
+        "gateway_id": gateway_id.replace("/", ""), # remove slashes from gateway_id
         "sensor": sensor_info["name"],
         "value": 1,
         "timestamp": datetime.utcnow().isoformat() + "Z"
