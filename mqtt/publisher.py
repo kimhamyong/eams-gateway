@@ -8,8 +8,9 @@ load_dotenv()
 
 BROKER = os.getenv("MQTT_BROKER") 
 PORT = int(os.getenv("MQTT_PORT"))
-TOPIC = gateway_id
 
+# MQTT Topic for publishing messages
+TOPIC = f"{gateway_id[:-1]}/{gateway_id[-1]}" 
 
 def publish_message(payload):
     """

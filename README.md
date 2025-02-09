@@ -25,10 +25,12 @@ The Home Gateway connects ZigBee-based sensors to an MQTT broker for real-time I
  - Only allowed MAC addresses are processed; data from unlisted MAC addresses is ignored  
 
 ### MQTT Publisher (Paho MQTT) 
- - _**Configure the **MQTT topic (`gateway_id`)** in the `.env` file**_
+ - _**Configure the **MQTT topic (`GATEWAY_ID`)** in the `.env` file**_
  - Publishes processed sensor data to an MQTT broker
  - Uses 'paho-mqtt' for MQTT communication  
- - The MQTT topic is dynamically set based on 'gateway_id'
+ - The MQTT topic is automatically derived from 'GATEWAY_ID' by separating the prefix and numeric ID.
+ - **GATEWAY_ID format:** `{prefix}{id}` (e.g., `home1`, `home2`, ...)
+ - **MQTT topic format:** `{prefix}/{id}` (e.g., `home/1`, `home/2`, ...)  
  - Converts sensor data into **JSON format** before publishing: 
     ```json
     {  

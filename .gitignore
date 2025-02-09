@@ -1,0 +1,18 @@
+# mac OS file
+.DS_Store
+
+# Environment file
+.env
+
+# Virtualenv
+venv/
+.env/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+test.py
