@@ -1,13 +1,7 @@
 import os
 import json
 import paho.mqtt.client as mqtt
-from config.settings import gateway_id
-from dotenv import load_dotenv
-
-load_dotenv()
-
-BROKER = os.getenv("MQTT_BROKER") 
-PORT = int(os.getenv("MQTT_PORT"))
+from config.settings import gateway_id, MQTT_BROKER, MQTT_PORT
 
 # MQTT Topic for publishing messages
 TOPIC = f"{gateway_id[:-1]}/{gateway_id[-1]}" 
@@ -19,8 +13,8 @@ def publish_message(payload):
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1) # create a new MQTT client
 
     try:
-        print(f"🚀 Connecting to MQTT Broker at {BROKER}:{PORT}...")
-        client.connect(BROKER, PORT, 60) # connect to the MQTT broker
+        print(f"🚀 Connecting to MQTT Broker at {MQTT_BROKER}:{MQTT_PORT}...")
+        client.connect(MQTT_BROKER, MQTT_PORT, 60) # connect to the MQTT broker
 
         json_message = json.dumps(payload) # convert payload to JSON
         print(f"📤 Publishing message to '{TOPIC}': {json_message}")
