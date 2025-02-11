@@ -17,6 +17,9 @@ read -p "Enter MQTT username: " MQTT_USER # e.g. username
 echo "Creating MQTT user '$MQTT_USER'..."
 sudo mosquitto_passwd -c /etc/mosquitto/passwd $MQTT_USER
 
+# Change ownership of Mosquitto password file
+sudo chown mosquitto:mosquitto /etc/mosquitto/passwd
+
 # Prompt user for MQTT listener port, user has to enter the port number
 read -p "Enter MQTT listener port (default: 1883): " MQTT_PORT # e.g. 1883
 MQTT_PORT=${MQTT_PORT:-1883}  # Set default port to 1883 if empty
