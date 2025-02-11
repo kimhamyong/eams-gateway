@@ -3,8 +3,8 @@
 echo "Setting up Python environment and checking serial ports..."
 
 # Install paho-mqtt
-echo "Installing python3-paho-mqtt..."
-sudo apt update && sudo apt install -y python3-paho-mqtt
+echo "Installing python3-paho-mqtt and python3-dotenv..."
+sudo apt update && sudo apt install -y python3-paho-mqtt python3-dotenv
 
 # Check connected USB serial devices
 echo "Checking connected USB serial devices..."
