@@ -90,3 +90,24 @@ chmod +x mqtt-broker.sh
 ./mqtt-broker.sh
 ```
 This will install `Mosquitto`, set up authentication and listener port, and enable automatic startup on boot.
+
+### 4. How to Run
+Once the setup and configuration are complete, you can start the Home Gateway by running:
+```bash
+python3 main.py
+```
+This will initialize the ZigBee receiver, process and filter sensor data based on registered MAC addresses, and publish structured messages to the configured MQTT broker.
+#### Verifying MQTT Messages
+To check if the gateway is publishing messages correctly, subscribe to the relevant MQTT topic:
+```bash
+mosquitto_sub -h <MQTT_BROKER_IP> -t "<prefix>/<id>" -u <username> -P <password> -v
+```
+To run the script in the background:
+```bash
+nohup python3 main.py > logs.txt 2>&1 &
+```
+To stop the service:
+```bash
+ps aux | grep main.py
+kill <PID>
+```
